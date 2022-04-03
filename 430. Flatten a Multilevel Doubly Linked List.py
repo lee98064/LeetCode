@@ -41,39 +41,55 @@ class Solution:
 
 
 
+class Solution2:
 
-        
+    def node_to_list(self,head):
+        if(head == None): return []
+        node_list = []
+        now = head
+        while(now != None):
+            node_list.append(now) 
+            now = now.next
+        return node_list
 
+    def link_list_to_node(self,head):
+        result = None
+        for i in range(0, len(head),1):
+            result = head[i]
+            result.child = None
+            if(i == 0):
+                result.prev = None
+            else:
+                result.prev = head[i - 1]
 
-    # def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-    #     now = head
-    #     node_list = []
-        
-    #     while(now.next != None):
-    #         node_list.append(now) 
-    #         now = now.next
-        
-    #     i = 0
-    #     while(i > len(node_list) - 1):
+            if(i == len(head) - 1):
+                result.next = None
+                break
+            else:
+                result.next = head[i + 1]
+            result = result.next
 
-    #         if(node_list[i].child != None):
-    #             temp = self.flatten(node_list[i])
-    #             node_list.insert(i,temp)
-    #             node_list[i].next = node_list[i + 1]
-    #             node_list[i + 1].prev = node_list[i]
-    #             i = i + len(temp) - 1
-    #             if(i + 1 > len(node_list) - 1):
-    #                 node_list[i] = None
-    #             else:
-    #                 node_list[i].next = node_list[i + 1]
-    #             i += 1
-    #         else:
-    #             i += 1
-        
-    #     result = None
-    #     for i in node_list:
-    #         result = i
-    #         result.child = None
-    #         result = result.next
+        return result
 
-    #     return(result)
+    def reverse_node(self, head):
+        while(head != None and head.prev != None):
+            head = head.prev
+
+        return(head)
+
+    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        a = self.node_to_list(head)
+        a = self.process(a)
+        a = self.link_list_to_node(a)
+        a = self.reverse_node(a)
+        return a
+
+    def process(self, head):
+        node_list = head
+        final_list = []
+
+        for i in node_list:
+            final_list.append(i)
+            if(i.child != None):
+                final_list += self.process(self.node_to_list(i.child))
+        return final_list
