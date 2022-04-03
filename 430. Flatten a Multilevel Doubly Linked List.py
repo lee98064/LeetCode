@@ -52,7 +52,7 @@ class Solution2:
             now = now.next
         return node_list
 
-    def link_list_to_node(self,head):
+    def list_to_node(self,head):
         result = None
         for i in range(0, len(head),1):
             result = head[i]
@@ -80,7 +80,7 @@ class Solution2:
     def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
         a = self.node_to_list(head)
         a = self.process(a)
-        a = self.link_list_to_node(a)
+        a = self.list_to_node(a)
         a = self.reverse_node(a)
         return a
 
